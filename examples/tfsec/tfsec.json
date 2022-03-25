@@ -1,0 +1,27 @@
+{
+	"results": [
+		{
+			"rule_id": "AVD-AWS-0123",
+			"long_id": "aws-iam-enforce-mfa",
+			"rule_description": "IAM Groups should have MFA enforcement activated.",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "User accounts are more vulnerable to compromise without multi factor authentication activated",
+			"resolution": "Use terraform-module/enforce-mfa/aws to ensure that MFA is enforced",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.12.0/checks/aws/iam/enforce-mfa/",
+				"https://registry.terraform.io/modules/terraform-module/enforce-mfa/aws/latest",
+				"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html#password-policy-details"
+			],
+			"description": "Multi-Factor authentication is not enforced for group",
+			"severity": "MEDIUM",
+			"status": 0,
+			"resource": "aws_iam_group.developers",
+			"location": {
+				"filename": "/home/jballet/perso/projects/annotate-action/examples/tfsec/error.tf",
+				"start_line": 1,
+				"end_line": 3
+			}
+		}
+	]
+}

@@ -1,11 +1,27 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: Annotate
+description: |
+  Generic annotation action, that parses various outputs from
+  different tools and reports to GitHub using Annotations.
+author: Jonathan Ballet <jon@multani.info
+
 inputs:
-  milliseconds: # change this
+  token:
+    required: false
+    description: GitHub token
+    default: ${{ github.token }}
+
+  input-path:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: The name of the input file to analyse.
+
+  format:
+    required: true
+    description: The format of the input file to parse.
+
+  relative-dir:
+    required: false
+    default: "."
+
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: node16
+  main: dist/index.js
