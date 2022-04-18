@@ -13,6 +13,10 @@ inputs:
     required: true
     description: The format of the input file to parse.
 
+  relative-dir:
+    required: false
+    default: "./"
+
 runs:
   using: node16
   main: dist/index.js
