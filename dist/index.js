@@ -117,8 +117,17 @@ function tfsec(input, relative_to) {
         let annotations = [];
         for (const result of data.results) {
             const loc = result.location;
-            const message = `${result.rule_description}`;
+            //const message = `${result.rule_description}`
             const filename = path.join(relative_to, loc.filename);
+            let infos = [];
+            infos.push(result.rule_description);
+            infos.push(`(impact: ${result.impact})`);
+            infos.push(`How to solve: : ${result.resolution}`);
+            infos.push('See:');
+            for (const link of result.links) {
+                infos.push(link);
+            }
+            const message = infos.join('\n');
             const a = {
                 path: filename,
                 start_line: loc.start_line,
