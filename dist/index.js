@@ -122,16 +122,20 @@ function tfsec(input, relative_to) {
             const a = {
                 path: filename,
                 start_line: loc.start_line,
-                end_line: loc.endline,
+                end_line: loc.end_line,
                 title: result.description,
                 message: message,
+                annotation_level: severityToLevel
             };
             annotations.push(a);
             console.log(message);
             //`::error file=${filename},line=${loc.start_line},endLine=${loc.end_line},title=${result.description}::${message}`
             //)
         }
-        const request = Object.assign(Object.assign({}, github.context.repo), { name: 'tfsec', status: 'completed', output: {
+        const head_sha = github.context.sha;
+        //commit || (pullRequest && pullRequest.head.sha) || github.context.sha
+        const conclusion = 'success';
+        const request = Object.assign(Object.assign({}, github.context.repo), { name: 'tfsec', head_sha, status: 'completed', conclusion, output: {
                 title: '',
                 summary: '',
                 annotations: annotations,
@@ -160,6 +164,17 @@ function tfsec(input, relative_to) {
     });
 }
 exports.tfsec = tfsec;
+function severityToLevel(severity /* TODO */) {
+    if (severity == 'CRITICAL') {
+        return 'failure';
+    }
+    else if (severity == 'MEDIUM') { // TODO: does it exist?
+        return 'warning';
+    }
+    else {
+        return 'notice';
+    }
+}
 // https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-error-message
 // echo "::error file=$line::File is not in canonical format (terraform fmt)"
 

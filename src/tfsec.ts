@@ -27,10 +27,12 @@ export async function tfsec(input: string, relative_to: string): Promise<void> {
     const a = {
         path: filename,
         start_line: loc.start_line,
-        end_line: loc.endline,
+        end_line: loc.end_line,
 
         title: result.description,
         message: message,
+
+        annotation_level: severityToLevel
     }
 
     annotations.push(a)
@@ -40,10 +42,17 @@ export async function tfsec(input: string, relative_to: string): Promise<void> {
     //)
   }
 
+  const head_sha = github.context.sha
+      //commit || (pullRequest && pullRequest.head.sha) || github.context.sha
+
+  const conclusion: 'success' | 'failure' = 'success'
+
   const request = {
       ...github.context.repo,
       name: 'tfsec',
+      head_sha,
       status: 'completed',
+      conclusion,
       output: {
           title: '',
           summary: '',
@@ -75,6 +84,17 @@ export async function tfsec(input: string, relative_to: string): Promise<void> {
       ////actions[].description,
       ////actions[].identifier
   //})
+}
+
+
+function severityToLevel(severity: string /* TODO */): string {
+    if (severity == 'CRITICAL') {
+        return 'failure'
+    } else if (severity == 'MEDIUM') { // TODO: does it exist?
+        return 'warning'
+    } else {
+        return 'notice'
+    }
 }
 
 
