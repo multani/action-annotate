@@ -1,15 +1,22 @@
+import * as core from '@actions/core'
 import * as path from 'path'
 import * as github from '@actions/github'
 
-export function tfsec(input: string, relative_to: string): void {
+export async function tfsec(input: string, relative_to: string): Promise<void> {
   const data = JSON.parse(input)
 
   const token = process.env['GITHUB_TOKEN']
-  const octokit = github.getOctokit(myToken)
+      //core.getInput('github_token') ||
+  if (!token) {
+      core.setFailed('❌ A token is required to execute this action')
+      return
+  }
 
-  const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/', 2)
+  const octokit = github.getOctokit(token)
 
-  const check = octokit.rest.checks.create({
+  //const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/', 2)
+
+  const check = await octokit.rest.checks.create({
       ...github.context.repo,
   })
 
@@ -37,9 +44,9 @@ export function tfsec(input: string, relative_to: string): void {
     //)
   }
 
-  octokit.rest.checks.update({
+  await octokit.rest.checks.update({
       ...github.context.repo,
-      check.id,
+      check_run_id: check.data.id,
       output: {
           title: '',
           summary: '',
