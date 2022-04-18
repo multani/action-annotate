@@ -41,12 +41,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const tfsec_1 = __nccwpck_require__(779);
+const fs_1 = __nccwpck_require__(147);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const format = core.getInput('format');
             const input_path = core.getInput('input-path');
-            (0, tfsec_1.tfsec)(input_path);
+            let data = yield fs_1.promises.readFile(input_path, 'utf-8');
+            (0, tfsec_1.tfsec)(data);
         }
         catch (error) {
             if (error instanceof Error)
