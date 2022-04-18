@@ -120,12 +120,21 @@ function tfsec(input, relative_to) {
             //const message = `${result.rule_description}`
             const filename = path.join(relative_to, loc.filename);
             let infos = [];
-            infos.push(result.rule_description);
-            infos.push(`(impact: ${result.impact})`);
-            infos.push(`How to solve: : ${result.resolution}`);
-            infos.push('See:');
+            infos.push(`
+${result.rule_description}
+
+Impact: ${result.impact}
+
+How to solve: ${result.resolution}
+
+See:
+`);
+            //infos.push(result.rule_description)
+            //infos.push(`(impact: ${result.impact})`)
+            //infos.push(`How to solve: ${result.resolution}`)
+            //infos.push('See:')
             for (const link of result.links) {
-                infos.push(link);
+                infos.push(`* ${link}`);
             }
             const message = infos.join('\n');
             const a = {
