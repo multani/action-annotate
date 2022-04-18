@@ -32,12 +32,9 @@ export function tfsec(input: string, relative_to: string): void {
 
     annotations.push(a)
 
-
-
-
-    console.log(
-      `::error file=${filename},line=${loc.start_line},endLine=${loc.end_line},title=${result.description}::${message}`
-    )
+    console.log(message)
+      //`::error file=${filename},line=${loc.start_line},endLine=${loc.end_line},title=${result.description}::${message}`
+    //)
   }
 
   octokit.rest.checks.update({
