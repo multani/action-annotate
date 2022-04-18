@@ -114,8 +114,6 @@ function tfsec(input, relative_to) {
             return;
         }
         const octokit = github.getOctokit(token);
-        //const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/', 2)
-        const check = yield octokit.rest.checks.create(Object.assign({}, github.context.repo));
         let annotations = [];
         for (const result of data.results) {
             const loc = result.location;
@@ -133,11 +131,32 @@ function tfsec(input, relative_to) {
             //`::error file=${filename},line=${loc.start_line},endLine=${loc.end_line},title=${result.description}::${message}`
             //)
         }
-        yield octokit.rest.checks.update(Object.assign(Object.assign({}, github.context.repo), { check_run_id: check.data.id, output: {
+        const request = Object.assign(Object.assign({}, github.context.repo), { name: 'tfsec', status: 'completed', output: {
                 title: '',
                 summary: '',
                 annotations: annotations,
-            } }));
+            } });
+        core.debug(JSON.stringify(request, null, 2));
+        const check = yield octokit.rest.checks.create(request);
+        //await octokit.rest.checks.update({
+        //...github.context.repo,
+        //check_run_id: check.data.id,
+        //output: {
+        //title: '',
+        //summary: '',
+        //annotations: annotations,
+        //}
+        ////output.annotations[].path,
+        ////output.annotations[].start_line,
+        ////output.annotations[].end_line,
+        ////output.annotations[].annotation_level,
+        ////output.annotations[].message,
+        ////output.images[].alt,
+        ////output.images[].image_url,
+        ////actions[].label,
+        ////actions[].description,
+        ////actions[].identifier
+        //})
     });
 }
 exports.tfsec = tfsec;
