@@ -1,18 +1,13 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {tfsec} from './tfsec'
 
 async function run(): Promise<void> {
   try {
     const format: string = core.getInput('format')
     const input_path: string = core.getInput('input-path')
 
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    tfsec(input_path)
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
