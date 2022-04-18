@@ -32,7 +32,7 @@ export async function tfsec(input: string, relative_to: string): Promise<void> {
         title: result.description,
         message: message,
 
-        annotation_level: severityToLevel
+        annotation_level: severityToLevel(result.severity),
     }
 
     annotations.push(a)

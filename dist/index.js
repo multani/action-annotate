@@ -125,7 +125,7 @@ function tfsec(input, relative_to) {
                 end_line: loc.end_line,
                 title: result.description,
                 message: message,
-                annotation_level: severityToLevel
+                annotation_level: severityToLevel(result.severity),
             };
             annotations.push(a);
             console.log(message);
