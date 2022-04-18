@@ -5,6 +5,11 @@ description: |
 author: Jonathan Ballet <jon@multani.info
 
 inputs:
+  token:
+    required: false
+    description: GitHub token
+    default: ${{ github.token }}
+
   input-path:
     required: true
     description: The name of the input file to analyse.

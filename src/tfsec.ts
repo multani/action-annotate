@@ -5,8 +5,10 @@ import * as github from '@actions/github'
 export async function tfsec(input: string, relative_to: string): Promise<void> {
   const data = JSON.parse(input)
 
-  const token = process.env['GITHUB_TOKEN']
-      //core.getInput('github_token') ||
+  const token =
+      core.getInput('token') ||
+      process.env.GITHUB_TOKEN
+
   if (!token) {
       core.setFailed('❌ A token is required to execute this action')
       return
