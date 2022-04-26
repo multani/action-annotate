@@ -20,7 +20,11 @@ async function run(): Promise<void> {
 
     let data: string = await fs.readFile(input_path, 'utf-8')
 
-    const annotations = tfsec.parse(data, relative_to)
+    if (format == 'tfsec') {
+      const annotations = tfsec.parse(data, relative_to)
+    } else if (format == 'flake8') {
+      const annotations = flake8.parse(data, relative_to)
+    }
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

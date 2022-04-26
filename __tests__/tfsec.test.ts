@@ -35,7 +35,12 @@ test('throws invalid number', async () => {
 }
 `
   var annotations = tfsec.parse(input, '.')
-  expect(annotations.length).toBeGreaterThanOrEqual(1)
+  expect(annotations.length).toEqual(1)
+
+  var annotation = annotations[0]
+  expect(annotation.path).toEqual("home/jballet/perso/projects/annotate-action/examples/tfsec/error.tf")
+  expect(annotation.start_line).toEqual(1)
+  expect(annotation.end_line).toEqual(3)
 })
 
 //test('wait 500 ms', async () => {

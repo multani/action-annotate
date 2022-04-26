@@ -1,81 +1,54 @@
 import * as core from '@actions/core'
 import * as path from 'path'
+import {Annotation} from '../annotations'
+
+//interface Flake8Line {
+  //path: string
+  //line: any
+  //col: any
+  //text: string
+//}
+
 
 export function parse(
   input: string,
   relative_to: string
-): {
-  path: string
-  start_line: any
-  end_line: any
-  title: any
-  message: string
-  annotation_level: string
-}[] {
-  const data = JSON.parse(input)
-
+): Annotation[] {
   let annotations = []
 
-  for (const result of data.results) {
-    const loc = result.location
-    //const message = `${result.rule_description}`
-    const filename = path.join(relative_to, loc.filename)
-
-    let infos = []
-
-    infos.push(`
-${result.rule_description}
-
-Impact: ${result.impact}
-
-How to solve: ${result.resolution}
-
-See:
-`)
-
-    //infos.push(result.rule_description)
-    //infos.push(`(impact: ${result.impact})`)
-    //infos.push(`How to solve: ${result.resolution}`)
-    //infos.push('See:')
-    for (const link of result.links) {
-      infos.push(`* ${link}`)
+  for (const inputLine of input.split('\n')) {
+    if (inputLine.trim() == '') {
+      continue
     }
 
-    const message = infos.join('\n')
+    var [filePath, line, col, message] = inputLine.split(':', 4)
+    message = message.trim()
+
+    const loc = line
+    const filename = path.join(relative_to, filePath)
+
+    const [code, errorMessage] = message.split(/ (.*)/s)
+
+    message = `
+${message}
+
+See: https://www.flake8rules.com/rules/${code}.html
+`
 
     const a = {
       path: filename,
-      start_line: loc.start_line,
-      end_line: loc.end_line,
+      start_line: parseInt(line),
+      end_line: 0,
 
-      title: result.description,
+      title: errorMessage,
       message: message,
 
-      annotation_level: severityToLevel(result.severity)
+      annotation_level: 'failure'
     }
 
+    console.log(a)
     annotations.push(a)
-
-    console.log(message)
-    //`::error file=${filename},line=${loc.start_line},endLine=${loc.end_line},title=${result.description}::${message}`
-    //)
   }
-
-  //commit || (pullRequest && pullRequest.head.sha) || github.context.sha
 
   return annotations
 }
-
-function severityToLevel(severity: string /* TODO */): string {
-  if (severity == 'CRITICAL') {
-    return 'failure'
-  } else if (severity == 'MEDIUM') {
-    // TODO: does it exist?
-    return 'warning'
-  } else {
-    return 'notice'
-  }
-}
-
-// https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-error-message
-// echo "::error file=$line::File is not in canonical format (terraform fmt)"
