@@ -22,7 +22,7 @@ export async function report(
 
   const request = {
     ...github.context.repo,
-    name: format,
+    name: `annotations: ${format}`,
     head_sha,
     status: 'completed',
     conclusion,

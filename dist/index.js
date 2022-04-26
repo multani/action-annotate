@@ -47,7 +47,7 @@ function report(token, format, annotations) {
         const octokit = github.getOctokit(token);
         const conclusion = 'success';
         const head_sha = github.context.sha;
-        const request = Object.assign(Object.assign({}, github.context.repo), { name: format, head_sha, status: 'completed', conclusion, output: {
+        const request = Object.assign(Object.assign({}, github.context.repo), { name: `annotations: ${format}`, head_sha, status: 'completed', conclusion, output: {
                 title: '',
                 summary: '',
                 annotations: annotations
