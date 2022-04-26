@@ -271,6 +271,8 @@ function parse(input, relative_to) {
         const loc = result.location;
         //const message = `${result.rule_description}`
         const relativeFilename = removePrefix(loc.filename, workspace);
+        console.log(`relativeFilename: ${relativeFilename}`);
+        console.log(`workspace: ${workspace}`);
         const filename = path.join(relative_to, relativeFilename);
         let infos = [];
         infos.push(`
