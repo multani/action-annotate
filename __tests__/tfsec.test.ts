@@ -1,11 +1,11 @@
-import {tfsec} from '../src/tfsec'
+import * as tfsec from '../src/tfsec'
 import * as process from 'process'
 import * as cp from 'child_process'
 import * as path from 'path'
 import {expect, test} from '@jest/globals'
 
 test('throws invalid number', async () => {
-    const input = `
+  const input = `
     {
 	"results": [
 		{
@@ -35,7 +35,9 @@ test('throws invalid number', async () => {
 }
 `
 
-  await expect(tfsec(input)).rejects.toThrow('milliseconds not a number')
+  await expect(tfsec.parse(input, '.')).rejects.toThrow(
+    'milliseconds not a number'
+  )
 })
 
 //test('wait 500 ms', async () => {
