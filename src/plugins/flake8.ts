@@ -1,8 +1,17 @@
 import * as core from '@actions/core'
 import * as path from 'path'
-import {Annotation} from '../annotations'
 
-export function parse(input: string, relative_to: string): Annotation[] {
+export function parse(
+  input: string,
+  relative_to: string
+): {
+  path: string
+  start_line: any
+  end_line: any
+  title: any
+  message: string
+  annotation_level: string
+}[] {
   const data = JSON.parse(input)
 
   let annotations = []
