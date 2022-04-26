@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import * as tfsec from './plugins/tfsec'
 import * as flake8 from './plugins/flake8'
+import {Annotation, report} from './annotations'
 import {promises as fs} from 'fs'
 import * as github from '@actions/github'
 
@@ -20,11 +21,17 @@ async function run(): Promise<void> {
 
     let data: string = await fs.readFile(input_path, 'utf-8')
 
+    var annotations: Annotation[]
+
     if (format == 'tfsec') {
-      const annotations = tfsec.parse(data, relative_to)
+      annotations = tfsec.parse(data, relative_to)
     } else if (format == 'flake8') {
-      const annotations = flake8.parse(data, relative_to)
+      annotations = flake8.parse(data, relative_to)
+    } else {
+      throw "oh noes"
     }
+
+    report(token, annotations)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
