@@ -265,7 +265,7 @@ const path = __importStar(__nccwpck_require__(1017));
 const removePrefix = (value, prefix) => value.startsWith(prefix) ? value.slice(prefix.length) : value;
 function parse(input, relative_to) {
     const data = JSON.parse(input);
-    const workspace = process.env.GITHUB_WORKSPACE || '';
+    const workspace = "/github/workspace/";
     let annotations = [];
     for (const result of data.results) {
         const loc = result.location;

@@ -8,7 +8,7 @@ const removePrefix = (value: string, prefix: string): string =>
 export function parse(input: string, relative_to: string): Annotation[] {
   const data = JSON.parse(input)
 
-  const workspace = process.env.GITHUB_WORKSPACE || ''
+  const workspace = "/github/workspace/"
 
   let annotations = []
 
