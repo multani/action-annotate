@@ -33,12 +33,14 @@ export function parse(
 ${message}
 
 See: https://www.flake8rules.com/rules/${code}.html
-`
+`.trim()
+
+    line = parseInt(line)
 
     const a = {
       path: filename,
-      start_line: parseInt(line),
-      end_line: 0,
+      start_line: line,
+      end_line: line,
 
       title: errorMessage,
       message: message,
