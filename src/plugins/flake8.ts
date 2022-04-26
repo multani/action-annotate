@@ -35,12 +35,12 @@ ${message}
 See: https://www.flake8rules.com/rules/${code}.html
 `.trim()
 
-    line = parseInt(line)
+    const lineNo = parseInt(line)
 
     const a = {
       path: filename,
-      start_line: line,
-      end_line: line,
+      start_line: lineNo,
+      end_line: lineNo,
 
       title: errorMessage,
       message: message,

@@ -17,7 +17,7 @@ F841 local variable 'x' is assigned to but never used
 See: https://www.flake8rules.com/rules/F841.html
 `)
   expect(annotation.start_line).toEqual(18)
-  expect(annotation.end_line).toEqual(0)
+  expect(annotation.end_line).toEqual(18)
   expect(annotation.annotation_level).toEqual('failure')
 })
 

@@ -211,11 +211,12 @@ function parse(input, relative_to) {
 ${message}
 
 See: https://www.flake8rules.com/rules/${code}.html
-`;
+`.trim();
+        const lineNo = parseInt(line);
         const a = {
             path: filename,
-            start_line: parseInt(line),
-            end_line: 0,
+            start_line: lineNo,
+            end_line: lineNo,
             title: errorMessage,
             message: message,
             annotation_level: 'failure'
