@@ -12,6 +12,7 @@ export interface Annotation {
 
 export async function report(
   token: string,
+  format: string,
   annotations: Annotation[]
 ): Promise<void> {
   const octokit = github.getOctokit(token)
@@ -21,7 +22,7 @@ export async function report(
 
   const request = {
     ...github.context.repo,
-    name: 'tfsec',
+    name: format,
     head_sha,
     status: 'completed',
     conclusion,

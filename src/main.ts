@@ -31,7 +31,7 @@ async function run(): Promise<void> {
       throw "oh noes"
     }
 
-    report(token, annotations)
+    report(token, format, annotations)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

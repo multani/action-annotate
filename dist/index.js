@@ -42,12 +42,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.report = void 0;
 const github = __importStar(__nccwpck_require__(5438));
 const core = __importStar(__nccwpck_require__(2186));
-function report(token, annotations) {
+function report(token, format, annotations) {
     return __awaiter(this, void 0, void 0, function* () {
         const octokit = github.getOctokit(token);
         const conclusion = 'success';
         const head_sha = github.context.sha;
-        const request = Object.assign(Object.assign({}, github.context.repo), { name: 'tfsec', head_sha, status: 'completed', conclusion, output: {
+        const request = Object.assign(Object.assign({}, github.context.repo), { name: format, head_sha, status: 'completed', conclusion, output: {
                 title: '',
                 summary: '',
                 annotations: annotations
@@ -146,7 +146,7 @@ function run() {
             else {
                 throw "oh noes";
             }
-            (0, annotations_1.report)(token, annotations);
+            (0, annotations_1.report)(token, format, annotations);
         }
         catch (error) {
             if (error instanceof Error)
