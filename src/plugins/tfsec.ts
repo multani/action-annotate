@@ -20,7 +20,8 @@ export function parse(input: string, relative_to: string): Annotation[] {
     console.log(`relativeFilename: ${relativeFilename}`)
     console.log(`workspace: ${workspace}`)
 
-    const filename = path.join(relative_to, relativeFilename)
+    //const filename = path.join(relative_to, relativeFilename)
+    const filename = relativeFilename
 
     let infos = []
 
