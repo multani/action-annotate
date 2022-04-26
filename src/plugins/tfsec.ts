@@ -3,12 +3,12 @@ import * as path from 'path'
 import {Annotation} from '../annotations'
 
 const removePrefix = (value: string, prefix: string): string =>
-   value.startsWith(prefix) ? value.slice(prefix.length) : value;
+  value.startsWith(prefix) ? value.slice(prefix.length) : value
 
 export function parse(input: string, relative_to: string): Annotation[] {
   const data = JSON.parse(input)
 
-  const workspace = "/github/workspace/"
+  const workspace = '/github/workspace/'
 
   let annotations = []
 

@@ -144,7 +144,7 @@ function run() {
                 annotations = flake8.parse(data, relative_to);
             }
             else {
-                throw "oh noes";
+                throw 'oh noes';
             }
             (0, annotations_1.report)(token, format, annotations);
         }
@@ -202,22 +202,18 @@ function parse(input, relative_to) {
         if (inputLine.trim() == '') {
             continue;
         }
-        var [filePath, line, col, message] = inputLine.split(':', 4);
-        message = message.trim();
+        var [filePath, line, col, text] = inputLine.split(':', 4);
+        text = text.trim();
         const loc = line;
         const filename = path.join(relative_to, filePath);
-        const [code, errorMessage] = message.split(/ (.*)/s);
-        message = `
-${message}
-
-See: https://www.flake8rules.com/rules/${code}.html
-`.trim();
+        const [code] = text.split(' ', 1);
+        const message = `See: https://www.flake8rules.com/rules/${code}.html`;
         const lineNo = parseInt(line);
         const a = {
             path: filename,
             start_line: lineNo,
             end_line: lineNo,
-            title: errorMessage,
+            title: text,
             message: message,
             annotation_level: 'failure'
         };
@@ -241,7 +237,7 @@ exports.parse = void 0;
 const removePrefix = (value, prefix) => value.startsWith(prefix) ? value.slice(prefix.length) : value;
 function parse(input, relative_to) {
     const data = JSON.parse(input);
-    const workspace = "/github/workspace/";
+    const workspace = '/github/workspace/';
     let annotations = [];
     for (const result of data.results) {
         const loc = result.location;

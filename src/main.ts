@@ -28,7 +28,7 @@ async function run(): Promise<void> {
     } else if (format == 'flake8') {
       annotations = flake8.parse(data, relative_to)
     } else {
-      throw "oh noes"
+      throw 'oh noes'
     }
 
     report(token, format, annotations)

@@ -10,12 +10,12 @@ test('throws invalid number', async () => {
 
   var annotation = annotations[0]
   expect(annotation.path).toEqual('foobar/foo.py')
-  expect(annotation.title).toEqual("local variable 'x' is assigned to but never used")
-  expect(annotation.message).toEqual(`
-F841 local variable 'x' is assigned to but never used
-
-See: https://www.flake8rules.com/rules/F841.html
-`)
+  expect(annotation.title).toEqual(
+    "F841 local variable 'x' is assigned to but never used"
+  )
+  expect(annotation.message).toEqual(
+    `See: https://www.flake8rules.com/rules/F841.html`
+  )
   expect(annotation.start_line).toEqual(18)
   expect(annotation.end_line).toEqual(18)
   expect(annotation.annotation_level).toEqual('failure')
