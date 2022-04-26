@@ -2,15 +2,22 @@ import * as core from '@actions/core'
 import * as path from 'path'
 import {Annotation} from '../annotations'
 
+const removePrefix = (value: string, prefix: string): string =>
+   value.startsWith(prefix) ? value.slice(prefix.length) : value;
+
 export function parse(input: string, relative_to: string): Annotation[] {
   const data = JSON.parse(input)
+
+  const workspace = process.env.GITHUB_WORKSPACE || ''
 
   let annotations = []
 
   for (const result of data.results) {
     const loc = result.location
     //const message = `${result.rule_description}`
-    const filename = path.join(relative_to, loc.filename)
+
+    const relativeFilename = removePrefix(loc.filename, workspace)
+    const filename = path.join(relative_to, relativeFilename)
 
     let infos = []
 

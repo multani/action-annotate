@@ -262,13 +262,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parse = void 0;
 const path = __importStar(__nccwpck_require__(1017));
+const removePrefix = (value, prefix) => value.startsWith(prefix) ? value.slice(prefix.length) : value;
 function parse(input, relative_to) {
     const data = JSON.parse(input);
+    const workspace = process.env.GITHUB_WORKSPACE || '';
     let annotations = [];
     for (const result of data.results) {
         const loc = result.location;
         //const message = `${result.rule_description}`
-        const filename = path.join(relative_to, loc.filename);
+        const relativeFilename = removePrefix(loc.filename, workspace);
+        const filename = path.join(relative_to, relativeFilename);
         let infos = [];
         infos.push(`
 ${result.rule_description}
