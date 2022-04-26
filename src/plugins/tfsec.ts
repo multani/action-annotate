@@ -17,6 +17,9 @@ export function parse(input: string, relative_to: string): Annotation[] {
     //const message = `${result.rule_description}`
 
     const relativeFilename = removePrefix(loc.filename, workspace)
+    console.log(`relativeFilename: ${relativeFilename}`)
+    console.log(`workspace: ${workspace}`)
+
     const filename = path.join(relative_to, relativeFilename)
 
     let infos = []
