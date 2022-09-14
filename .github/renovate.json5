@@ -3,4 +3,5 @@
     "config:base",
   ],
   "automerge": true,
+  "schedule": "after 1am on monday",
 }
